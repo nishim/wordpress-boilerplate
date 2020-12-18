@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  db:
+    container_name: db
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:
+      - data:/var/lib/mysql
+      - ./docker/mysql/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "33306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      TZ: 'Asia/Tokyo'
+
+  wordpress:
+    container_name: wp
+    build: docker/wordpress
+    volumes:
+      - ./wp-content:/var/www/html/wp-content:cached
+    ports:
+      - "8000:80"
+    restart: always
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_DEBUG_LOG', true);
+        define('WP_POST_REVISIONS', false);
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+volumes:
+  data:
+    driver: local

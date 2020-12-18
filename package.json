@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "gulp": "gulp",
+    "prewatch": "gulp",
+    "watch": "gulp watch"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.1",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-sass": "^4.1.0",
+    "imagemin-mozjpeg": "^9.0.0",
+    "imagemin-pngquant": "^9.0.1"
+  }
+}
